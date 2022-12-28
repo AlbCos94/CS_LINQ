@@ -92,44 +92,66 @@ namespace TrainingStuffD{
             }
         }
 
+
         
-            // STATEFUL ITERATION
-            // --> SE INTERUMPE FUNCION PARA DEVOLVER ALGO ESPECIFIO CON EL "YELD RETURN" Y LUEGO SE VUELVE A ELLA PARA CONTINUAR DONDE LO HABIAMOS DEJADO
-            //When a yield return statement is reached in the iterator method, expression is returned, and the current location in code is retained. Execution is restarted from 
-            //that location the next time that the iterator function is called. //
-            //The return type must be IEnumerable, IEnumerable<T>, IEnumerator, or IEnumerator<T>.
+        // STATEFUL ITERATION
+        // --> SE INTERUMPE FUNCION PARA DEVOLVER ALGO ESPECIFIO CON EL "YELD RETURN" Y LUEGO SE VUELVE A ELLA PARA CONTINUAR DONDE LO HABIAMOS DEJADO
+        //When a yield return statement is reached in the iterator method, expression is returned, and the current location in code is retained. Execution is restarted from 
+        //that location the next time that the iterator function is called. //
+        //The return type must be IEnumerable, IEnumerable<T>, IEnumerator, or IEnumerator<T>.
 
 
-        public void StatefulIterationRun()
+        // EXAMPLE 1
+        public static void StatefulIteration()
         {
-            StatefulIteration();
+            foreach (char ch in GetAToZ())
+                Console.WriteLine(ch+" ");          
+            //Console.ReadLine();
 
         }
-
-
 
         static IEnumerable<char> GetAToZ() // it is gonna return an IEnumerable
         {
             char ch = 'A'; // whe yield return executed "ch" will have the value of the last interation
             for (int i=0; i<26; ++i)
             {
-                yield return ((char)(ch+1));
+                ch++;
+                yield return (char)(ch);
             }
 
         }
-        public void StatefulIteration()
+
+        // STATIC METHODS 
+        // A static method in C# is a method that keeps only one copy of the method at the Type level, not the object level. 
+        // That means, all instances of the class share the same copy of the method and its data. The last updated value of the method is shared among all objects of that Type. 
+        // Static methods are called by using the class name, not the instance of the class. 
+        // The Console class and its Read and Write methods are an example of static methods. The following code example calls Console.WriteLine and Console.
+        // ReadKey methods without creating an instance of the Console class. --> https://www.c-sharpcorner.com/UploadFile/abhikumarvatsa/static-methods-in-C-Sharp/
+
+        // --> No se puede acceder al miembro estático 'SecondMain' con una referencia de instancia; califíquelo con un nombre de tipo en su lugar.
+        // --> Este miembro al ser estatic se deberá llamar a través de su tipo y no creando una instancia (un Objeto) de tal tipo !!!!
+        // --> ver main.cs (*11) para ver como se ha llamado dicho método
+        
+        // EXAMPLE 2
+        public static void SecondMain() 
         {
-            foreach (char ch in GetAToZ())
-                Console.WriteLine(ch+" ");
-            
-
-            //Console.ReadLine();
-
+            FillValues();
+            foreach (int i in RunningTotal())
+            {
+                Console.WriteLine(i);
+            }
+            Console.ReadLine();
         }
 
-
+        static IEnumerable<int> RunningTotal()
+        {
+            int runningTotal = 0;
+            foreach (int i in MyListOfInt)
+            {
+                runningTotal += i;
+                yield return (runningTotal);
+            }
+        }
     }
-
-
 }
 
