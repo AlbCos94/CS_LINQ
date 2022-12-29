@@ -31,20 +31,24 @@ namespace EmpresaStuff{
 
         public double Salario {get; set;}
 
-        // Clave foraneo
-        public int EmpresaId { get; set;}
+        // Clave foranea
+        // La clave foránea identifica una columna o grupo de columnas en una tabla (tabla hija o referendo) 
+        // que se refiere a una columna o grupo de columnas en otra tabla (tabla maestra o referenciada). 
+        // Esta clase tiene un metodo "join" que permite la relacion entre ambas tablas 
+        public int EmpresaId { get; set;} // --> INDICE QUE VA A RELACIONAR LA ESTRUCTURA DE DATOS DE EMPRESAS (TABLA MAESTRA) CON LA ESTRUCTURA DE DATOS DE EMPRESARIOS (TABLA HIJA) -> "para relacionar dos tablas"
+
 
         public void PrintDatosEmpleado()
         {
             Console.Write("Empleado {0} con Id {1}, cargo {2} con salario {3}" + 
-            " y perteneciente a la emperesa {4} \n", Nombre, numId, Cargo, Salario, EmpresaId);
+            " y perteneciente a la empresa {4} \n", Nombre, numId, Cargo, Salario, EmpresaId);
 
         }
         
     }
 
 
-    // Clase para almacenar las empresas y sus empleados
+    // Clase para almacenar las empresas y sus empleados -> generar la "base de datos"
 
     class ControlEmpresasEmpleados
     {
@@ -65,6 +69,7 @@ namespace EmpresaStuff{
             listaDeEmpleados.Add(new Empleado { numId = 2, Nombre = "Juan", Cargo = "CEO", EmpresaId = 2, Salario = 1500000}); // pertenece a Pildoras
             listaDeEmpleados.Add(new Empleado { numId = 3, Nombre = "Larry", Cargo = "Co-CEO", EmpresaId = 1, Salario = 35000}); // pertenece a Google
             listaDeEmpleados.Add(new Empleado { numId = 4, Nombre = "Irina", Cargo = "Developer", EmpresaId = 2, Salario = 45000}); // pertenece a Pildoras
+            listaDeEmpleados.Add(new Empleado { numId = 1, Nombre = "Alfonso", Cargo = "Employer", EmpresaId = 2, Salario = 75000}); // pertenece a Google
 
         }
 
@@ -109,8 +114,55 @@ namespace EmpresaStuff{
             }
         }
 
-    
-    }
+        public void DisplayEmployeesOrderedByName()
+        {
 
+            IEnumerable<Empleado> EmployeesSortedByName = from empleado in listaDeEmpleados orderby empleado.Nombre select empleado;
+
+            foreach (var empleado_i in EmployeesSortedByName)
+            {
+                empleado_i.PrintDatosEmpleado();
+            }
+        }
+
+        public void DisplayEmployeesOrderedByNameReverse()
+        {
+
+            IEnumerable<Empleado> EmployeesSortedByNameDescent = from empleado in listaDeEmpleados orderby empleado.Nombre descending select empleado;
+
+            foreach (var empleado_i in EmployeesSortedByNameDescent)
+            {
+                empleado_i.PrintDatosEmpleado();
+            }
+        }
+
+        //Metodo join para relacionar la tabla de datos de los empleados con la tabla de datos de las empresas
+        // buscamos empleados que pertenezcan a la empresa "PildorasInformaticas"  a través el nombre propio de la empersa y no indicando el id
+        // el idDeEmpresa sera la clave foranea para hacer la relacion puente
+        public void DisplayEmpleadosPildoras()
+        {
+            IEnumerable<Empleado> empleadosPildora = from empleado in listaDeEmpleados join empresa in listaDeEmpresas 
+            on empleado.EmpresaId equals empresa.numId where empresa.Nombre=="PildorasInformaticas" select empleado;
+           
+            foreach (var empleado_i in empleadosPildora)
+            {
+                empleado_i.PrintDatosEmpleado();
+            }
+
+        }
+
+        // User will chose the Company and its employees will be displayed
+        public void DisplayEmployeesFromCompany(int Id)
+        {         
+
+            IEnumerable<Empleado> empleadosPildora = from empleado in listaDeEmpleados join empresa in listaDeEmpresas 
+            on empleado.EmpresaId equals empresa.numId where empresa.numId==Id select empleado;
+           
+            foreach (Empleado empleado_i in empleadosPildora)
+            {
+                empleado_i.PrintDatosEmpleado();
+            }
+        }
+    }
 }
 

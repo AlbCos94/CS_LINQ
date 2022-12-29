@@ -23,9 +23,21 @@ namespace TrainingStuffH{
             // Permite uniformidad en lenguajes de consulta, reduccion de codigo, mas legible, perfecta integracion en C#
 
             // API LINQ -> formada por dos clases que proporcionan los métodos para acceder a todos estos datos. 
+            //          -> LINQ API is a bunch of extension methods included in System.Linq.Enumerable and System.Linq.Queryable class. 
                 // Enumerable -> IEnumerable (interface) -> https://learn.microsoft.com/es-es/dotnet/api/system.collections.ienumerable?view=net-7.0
+                    // Expone un enumerador, que admite una iteración simple en una colección no genérica.
+                    // When we work on data sets in memory, we use the implementation of the LINQ methods offered by IEnumerable( ), and that is optimized for each compound type.
+                    // IEnumerable<T> is applicable for in-memory data querying
                 // Queryable -> IQueryable  (interface) -> https://learn.microsoft.com/es-es/dotnet/api/system.linq.iqueryable?view=net-7.0 
+                    // Proporciona características para evaluar consultas con respecto a un origen de datos concreto en el que 
+                    // el tipo de datos no está especificado.
+                    // When we work on other data sources, usually persistent, we use the IQueryable( ) implementation offered by the provider of each origin.
+                    // IQueryable<T> allows remote execution, like web service or database querying. 
 
+            // Linq Expressions  
+                // a. Are a combination of query clauses used to identify the data sources for the query.
+                // b. They allow sorting, filtering, grouping, or joining data.
+                // c. They specify what information will be retrieved from the data source.
 
             int [] valoresNumericos = new int[] {1,2,3,4,5,6,7,8,9, 10};
 
