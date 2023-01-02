@@ -1,10 +1,9 @@
-// to avoind using the namespace "System.Collection" for all the items of the collections we define:
+// to avoind using the namespace [...]] for all the items of the collections we define:
 using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-// Anounymous Types Training. 
 
 namespace TrainingStuffE{
 

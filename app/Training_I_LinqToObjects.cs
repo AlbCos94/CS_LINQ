@@ -4,8 +4,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-// Anounymous Types Training. 
-
 namespace TrainingStuffI
 {
 
@@ -16,6 +14,9 @@ namespace TrainingStuffI
         public static void MainProcess ()
         {
             Console.WriteLine(" !!I AM THE PROGRAM I - Training of LinqToObject!! ");   
+
+            // LINQ To Object --> THE ONE USED WHEN ACCESS TO THE WRITTING MODEL
+
 
             // LINQ for Objects allows us to create queries on data sequences of type IEnumerable or IEnumerable <T> without the need 
             // to use intermediaries (Provider of the UN, or an API) to translate the query into another language. 
@@ -44,8 +45,50 @@ namespace TrainingStuffI
                 See: https://docs.microsoft.com/en-us/dotnet/api/system.linq?view=net-5.0#enums         
             
             */
+
+
+            // SUMMARY
+
+            /*
+            LINQ to objects
+            Allow us to create in-memory queries over objects.
+            We can work with collections without using a hard way of developing by loops.
+            Building queries using:
+            - Query Syntax: variables, ranges, standard query operators, …
+            - Method Sintax: variables, extension methods, lambda expression, … --> THE ONE SHOWN HERE
+            Queries execution:
+            - Deffered execution: query is not executed when declared. It is executed when the query object is iterated over a loop.
+            - Immediate execution: query is executed when it is declared.
+
+
+            OPERATORS
+            -Filtering Operators: restrict the result set such that it has only selected elements satisfying a particular condition.
+            -Join Operators: Joining refers to an operation in which data sources with difficult to follow relationships with each 
+                other in a direct way are targeted.
+            -Projection Operations: Projection is an operation in which an object is transformed into an altogether new form with 
+                only specific properties.
+            - Sorting Operators: A sorting operation allows ordering the elements of a sequence on basis of a single or more attributes.
+            - Grouping Operators: The operators put data into some groups based on a common shared attribute.
+            - Conversions: The operators change the type of input objects and are used in a diverse range of applications.
+            - Concatenation: Performs concatenation of two sequences and is quite similar to the Union operator in terms of 
+                its operation except of the fact that this does not remove duplicates.
+            - Aggregation: Performs any type of desired aggregation and allows creating custom aggregations in LINQ.
+            - Quantifier Operations: These operators return a Boolean value i.e. True or False when some or all elements
+                within a sequence satisfy a specific condition.
+            - Partition Operations: Divide an input sequence into two separate sections without rearranging t
+                he elements of the sequence and then returning one of them.
+            - Generation Operations: A new sequence of values is created by generational operators.
+            - Set Operations: There are four operators for the set operations, each yielding a result based on different criteria.
+            - Equality: Compares two sentences (enumerable ) and determine if they are an exact match or not.
+            */
         }
 
+
+        static void printIntCollection(IEnumerable<int> collection)
+        {
+            foreach (int element in collection)
+                Console.WriteLine(element);
+        }
 
         // Our data bases:
          static List<int> ListToTest = new List<int> {12,2,33,4,5,6,34,23,10,21};   
@@ -75,7 +118,8 @@ namespace TrainingStuffI
         }
 
 
-        // *FIRST FILTER* --> finds and returns the first element (NOT AN  IEnumerable<T> (ITERATOR) - DIRECTLY THE ELEMENT) of the sequence that meets the indicated condition. Throws an exception (InvalidOperationException) when the item is not found..
+        // *FIRST FILTER* --> finds and returns the first element (NOT AN  IEnumerable<T> (ITERATOR) - DIRECTLY THE ELEMENT) of the sequence that meets the indicated condition. 
+        //Throws an exception (InvalidOperationException) when the item is not found..
         static public void Execute_First_OnList(int lessThan)
         {
             int res = ListToTest.First(n => n<lessThan); // what we introduce is a lamda expression that gets as input an int and returns a boolean; ,
@@ -308,7 +352,7 @@ namespace TrainingStuffI
         
         static public void Execute_GroupBy_OnList()
         {
-            // we create grpup pf student regardind the criteria of s.Score ( Students that have the same score )
+            // we create group of student regarding the criteria of s.Score ( Students that have the same score )
             IEnumerable<IGrouping <int, StudentStuff.Student >> res = allStudents.GroupBy(s=>s.Score);  
 
             // To iterate over the results it returns, we can use a foreach nested inside another foreach:
@@ -449,7 +493,7 @@ namespace TrainingStuffI
 
         // *Union( )* -> Returns the unique elements that appear in either of the two collections.(!!without duplicates!!)
         // CollectionA.Intersect(CollectionB);
-        // it returns elements of CollectionA and elements in CollectionB as a form of a IEnumerable<T>  without duplications ( another Collection)
+        // it returns elements of CollectionA and elements in CollectionB as a form of a IEnumerable<T>  without duplications ( another Collection )
         static public void Execute_Union_OnInt()
         {
             IEnumerable<int> res = IntArrayToTest2.Union(IntArrayToTest3); 
@@ -469,13 +513,264 @@ namespace TrainingStuffI
 
         // *SELECT*
         // When a collection of objects is returned, the Select ( ) method allows us to transform the result of a query 
-        //so that it has the format we want.
+        // so that it has the format we want.
         static public void Execute_Select_IntArrayx2()
         {
-            IEnumerable<int> res = IntArrayToTest4.Select(n=>n*2); 
+            IEnumerable<int> res = IntArrayToTest4.Select(n=>n*2); // each element of the collection is gonna be multiplied by two
 
-            foreach (int number in res)
-                Console.WriteLine(number);
+            Console.WriteLine("Original collection: ");
+            printIntCollection(IntArrayToTest4);// THE ORIGINAL COLLECTION IS NOT MODIFIED!!
+ 
+            Console.WriteLine("Collection multiplied by 2: ");
+            printIntCollection(res);
+
+        }
+
+        // From an object collection we create an other collection of instances of a new object
+        static public void Execute_Select_IntArrayToSurfacesCircunference()
+        {
+            var res = IntArrayToTest4.Select(r=> new {Radius = r, Surface = 2*3.14*r, Area = r*r*3.14}); // each element of the collection is gonna be transformed to an anonymopus type that has radius, surface and area
+ 
+            Console.WriteLine("Display of a new collection object: ");
+            foreach ( var element in res )
+                PrintCircunferenceData(element.Radius, element.Surface, element.Area); 
+        }
+
+        static public void PrintCircunferenceData( double radius, double surface, double area )
+        {
+            Console.WriteLine("Circunference of radius {0}, surface {1} and area {2}", radius, surface, area);
+        }
+
+
+        // *SELECTMANY*
+        /*
+        We use it to create a single sequence from internal sequences of our objects. 
+        The resulting sequence contains "n" concatenated subcollections, coming from the "n" values ​​of origin. 
+        Therefore, the transformation function that we pass as a parameter to SelectMany( ) must return 
+        an enumerable sequence that we can subsequently concatenate
+        
+        --> Select Collections that are inside an other collection (encapsulated)
+        */
+        static IList <StudentStuff.Student> allStudentsV3 = new List <StudentStuff.Student>
+        {
+            new StudentStuff.Student ("Svetlana", "Omhlenko", 10, 1, 2, 3),
+            new StudentStuff.Student ("Claire", "O'Donnell", 6, 4, 5, 6),
+            new StudentStuff.Student ("Sven", "Mortensen", 3, 7, 8, 9),
+            new StudentStuff.Student ("Cesar","Garcia", 6, 5, 3, 9),
+            new StudentStuff.Student ("Debra", "Garcia", 10, 5, 3, 9),
+            new StudentStuff.Student ("Monica", "Garcia", 10, 5, 3, 9),
+            new StudentStuff.Student ("Yessica", "Omhlenko", 10, 5, 3, 9),
+            new StudentStuff.Student ("Federica","Mortensen", 3, 5, 3, 9),
+
+        };
+
+        static public void Execute_SelectMany_fromStudentsCollectionSelectScores()
+        {
+            IEnumerable<int> res = allStudentsV3.SelectMany(s => s.scores); // we get all the scores of all the students and join them together into a collection
+ 
+            Console.WriteLine("Display all the scores of all the students: ");
+            foreach ( int score_number in res )
+                 Console.WriteLine(score_number);
+        }
+
+        // Example "SelectMany()"
+        /*
+
+        If we have to count the number of times that the letter 'g' appears in this sequence of strings we have to do:
+
+        string[ ] first = new string[ ] {"hello", "hi", "good evening", "good day"};
+
+        first.SelectMany(p=> p.ToCharArray( )).Where(p=>p.Equals('g')).Count( );
+
+        */ 
+
+        // ** PARTITION** //
+        static int [] IntArrayToTest5 = new int[] {1,2,3,4,5,6,7,3,1};
+        
+        // *SKIP*
+        /*
+            Process an IEnumerable<T> and return a new IEnumerable<T> without the first "n" elements of the list, 
+            with "n" being a number received as a parameter. -> It returns --> IEnumerable<T>
+        */
+
+        static public void Execute_Skip_NfirstIntSkipped(int n_skip)
+        {
+            IEnumerable<int> res = IntArrayToTest5.Skip(n_skip); // we skip the first n elements of a collection
+            printIntCollection(res);
+
+        }
+
+        // *SKIP WHILE*
+        /*
+            Process an IEnumerable<T> by applying a filter to discard the first elements 
+            of a collection that fulfill the predicate received as a parameter.
+
+            SkipWhile( ) stops the first time it finds an element that does not meet the condition we have indicated
+        */
+        static public void Execute_SkipWhile_LessThan(int num)
+        {
+            IEnumerable<int> res = IntArrayToTest5.SkipWhile(n => n<=num); // we skip the first n elements of a collection
+            printIntCollection(res);
+
+        }
+
+        // *TAKE*
+        /*
+            Process an IEnumerable<T> and return a new IEnumerable<T> with the first n elements of the list, 
+            n being a number received as a parameter. -> It returns --> IEnumerable<T>
+        */
+        static public void Execute_Take_NfirstIntTaken(int num)
+        {
+            IEnumerable<int> res = IntArrayToTest5.Take(num); // we skip the first n elements of a collection
+            printIntCollection(res);
+        }
+
+        // *TAKE WHILE*
+        /*
+            Process an IEnumerable<T> by applying a filter to return the first elements of 
+            a collection that fulfill the received predicate as a parameter. -> It returns --> IEnumerable<T>
+        */
+        static public void Execute_TakeWhile_NfirstLowerThan(int num)
+        {
+            IEnumerable<int> res = IntArrayToTest5.TakeWhile(n => n<=num); // we take all the elements lower than num starting from beggining
+            printIntCollection(res);
+        }
+
+        // **JOINS** //
+        /*
+            We use the combination clauses (Join ( ) and GroupJoin ( )) when we want to combine two collections, 
+            so that we generate a result in which the elements of a collection A appear related to the elements 
+            of a collection B to which a property binds common.
+        */
+
+        // *Join()*
+        /*
+            Combines the results of two sequences that share one or more properties.  -> It returns --> IEnumerable<T>
+
+
+            var res = left.Join (
+                right,
+                l => l.PropertyValue,
+                r => r.PropertyValue,
+                (l, r) => new {l.Property1, r.Property1, ...}
+            )
+
+            Where:
+
+                left: is the first collection (left), of type IEnumerable<L>.
+                right: it is the second collection (right), of type IEnumerable<R>.
+                l => exp: is the expression that selects the value of the left join.
+                    - l is of type L.
+                r => exp: is the expression that selects the value of the right join.
+                    - r is of type R.
+                (l, r) => exp: is the expression that creates the new objects (projection) from the left and right objects:
+                    - l is an object of type L.
+                    - r is an object of type R.
+
+                In LINQ, the result of a combination is an IEnumerable<T>, 
+                where T is the type that defines the properties of the two initial objects. 
+                Usually it will be an anonymous type, but it can also be a type that we have created to represent the combined information. 
+                On this sequence we can, afterwards, do other filtering operations, projection ...
+        */
+
+        static IList <StudentStuff.Student> allStudentsV4 = new List <StudentStuff.Student>
+        {
+            new StudentStuff.Student ("Svetlana", "Omhlenko", 10, 1, 2, 3, "Maths"),
+            new StudentStuff.Student ("Claire", "O'Donnell", 6, 4, 5, 6, "Science"),
+            new StudentStuff.Student ("Sven", "Mortensen", 3, 7, 8, 9, "Chemistry"),
+            new StudentStuff.Student ("Cesar","Garcia", 6, 5, 3, 9, "Maths"),
+            new StudentStuff.Student ("Debra", "Garcia", 10, 5, 3, 9, "Science"),
+            new StudentStuff.Student ("Monica", "Garcia", 10, 5, 3, 9, "Maths"),
+            new StudentStuff.Student ("Yessica", "Omhlenko", 10, 5, 3, 9, "Physics"),
+            new StudentStuff.Student ("Federica","Mortensen", 3, 5, 3, 9, "Chemistry"),
+        };
+
+        static IList <CourseStuff.Course> CoursesAvailable = new List <CourseStuff.Course>
+        {
+            new CourseStuff.Course ("Maths", "mathematics course of fancy stuff", "Ramirez", 9),
+            new CourseStuff.Course ("Science", "science course of fancy stuff", "Cuevas", 10),
+            new CourseStuff.Course ("Chemistry", "Chemistry course of fancy stuff", "Begonia", 8),
+            new CourseStuff.Course ("Physics", "Physics course of fancy stuff", "ElDeZaragoza", 6)
+        };
+
+        
+        static public void Execute_Join_StundentsAndCourses()
+        {
+            var res = allStudentsV4.Join(
+                CoursesAvailable,
+                Collection_Students => Collection_Students.Course, // expression to join values of first collection
+                Collection_Courses => Collection_Courses.Name, // expression to join values of second collection
+                (Collection_Students, Collection_Courses) => new { Name_Student = Collection_Students.Name, Name_Teacher = Collection_Courses.Teacher }
+                
+                // We just want to know with which student goes with which teacher. 
+
+            ); 
+ 
+            Console.WriteLine("Display all the scores of all the students: ");
+            foreach ( var Combo_Stundent_teacher in res )
+                 Console.WriteLine("the student {0} is gonna be with the teacher {1}", Combo_Stundent_teacher.Name_Student, Combo_Stundent_teacher.Name_Teacher );
+        }
+
+        // *Group Join()*
+        /*
+        Sometimes we do not want to generate a new object for each result of the combination of the left and right collections, 
+        but for each result of the left part ("l" in the example below) we want to create a collection of results on the right 
+        side ("listOfR" in the example below). 
+        In this way we can use a Join to generate a hierarchical data structure, where each element m of the left sequence 
+        has assigned 1..n elements of the right sequence.
+
+        All the elements of the first collection appear in the result set of a grouped combination, regardless of whether correlated elements have
+        been found on the right side. 
+        In the case that no correlated elements are found, the sequence of correlated elements for that element would be empty.
+        */
+
+        /*
+        Next example is about students and courses and shows the result of doing a GroupJoin( ) of Course (left side) 
+        and Student (right side), to obtain a list of all the students pointed to each course. Courses without students also appear in the group, 
+        but their list of students is empty.
+        We will check for each Course all the students
+
+        The syntax of the query is similar to that used by the Join( ) method, 
+        but it changes the selection function of the result which, on the right side, is no longer R, but IEnumerable<R>.
+
+        var res = left.GroupJoin (
+            right,
+            l => l.PropertyValue,
+            r => r.PropertyValue,
+            (l, listOfR) => new {l.Property1, listOfR, ...} 
+            )
+        //--> listOfR are the elements of the second collection that share that "r => r.PropertyValue" with the elements of the first collection 
+
+        */
+
+        static public void Execute_GroupJoin_StundentsAndCourses()
+        {
+            var res = CoursesAvailable.GroupJoin ( allStudentsV4,
+                Courses_collect => Courses_collect.Name, // variable from CoursesAvailable used to join
+                Students_collect => Students_collect.Course,  // variable from allStudentsV4 used to join
+                (Courses_collect, listOf_Students_collect) => new // for each element of the collection of Courses we will have a new anonymous Object type made out of some properties of the collection of Courses and a collection of Students that match the "joint value"
+                {                                           
+                    CourseName = Courses_collect.Name,
+                    CourseDescript = Courses_collect.Description,
+                    StudentsFromCourse =listOf_Students_collect // collection of the students of the course
+                }
+            );
+                       
+            Console.WriteLine("Display for each course all the students: ");
+
+            foreach ( var Course_element in res)
+            {
+                Console.WriteLine("For the course {0} with the description --> {1} <-- we have the following students: ", Course_element.CourseName, Course_element.CourseDescript );
+                var result_studentList = Course_element.StudentsFromCourse;
+
+                foreach ( var Student_element in result_studentList)
+                {
+                    Student_element.PrintDataStudent();
+
+
+                }    
+            }
+
         }
 
 

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <var atributo="attr1" atributoB="attr233">
+    <tag>value1</tag>
+  </var>
+  <var atributo="attr2">
+    <tag>value2</tag>
+  </var>
+  <var atributo="attr3">
+    <tag>value3</tag>
+  </var>
+</root>

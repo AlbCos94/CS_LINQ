@@ -13,6 +13,8 @@ namespace StudentStuff{
         public string Name {get; set;}
         public string Surname {get; set;}
         public int Score {get; set;}
+        public int [] scores;
+        public string Course {get; set;}
 
 
         public Student()
@@ -20,6 +22,8 @@ namespace StudentStuff{
             Name = "James";
             Surname = "Bond";
             Score = 7;
+            scores = new int [] {5,6,7};
+            Course = "NoCourse";
 
         }
         public Student(string name, string surname, int score)
@@ -27,8 +31,28 @@ namespace StudentStuff{
             Name = name;
             Surname = surname;
             Score = score;
+            scores = new int [] {5,6,7};
+            Course = "NoCourse";
+
         }
 
+        public Student(string name, string surname, int score, int scoreA, int scoreB, int scoreC)
+        {
+            Name = name;
+            Surname = surname;
+            Score = score;
+            scores = new int [] {scoreA,scoreB,scoreC};
+            Course = "NoCourse";
+        }
+        
+        public Student(string name, string surname, int score, int scoreA, int scoreB, int scoreC, string CourseName)
+        {
+            Name = name;
+            Surname = surname;
+            Score = score;
+            scores = new int [] {scoreA,scoreB,scoreC};
+            Course = CourseName;
+        }
 
         public void PrintDataStudent()
         {

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <var>
+    <tag>value1</tag>
+  </var>
+  <var>
+    <tag>value2</tag>
+  </var>
+  <var>
+    <tag>value3</tag>
+  </var>
+</root>
