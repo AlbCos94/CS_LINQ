@@ -279,3 +279,6 @@ TrainingStuffK.ProgramK.RemoveElementOfXMLTree();
 
 Console.WriteLine("\nRemove some nodes from a XML Tree");
 TrainingStuffK.ProgramK.RemoveNodesOfXMLTree();
+
+Console.WriteLine("\nTry Is Epty");
+TrainingStuffM.ProgramM.IsEmpty_OnListString();

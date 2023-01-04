@@ -15,9 +15,6 @@ namespace TrainingStuffI
         {
             Console.WriteLine(" !!I AM THE PROGRAM I - Training of LinqToObject!! ");   
 
-            // LINQ To Object --> THE ONE USED WHEN ACCESS TO THE WRITTING MODEL
-
-
             // LINQ for Objects allows us to create queries on data sequences of type IEnumerable or IEnumerable <T> without the need 
             // to use intermediaries (Provider of the UN, or an API) to translate the query into another language. 
             // In this case, collections of objects are in memory.
@@ -545,7 +542,7 @@ namespace TrainingStuffI
         // *SELECTMANY*
         /*
         We use it to create a single sequence from internal sequences of our objects. 
-        The resulting sequence contains "n" concatenated subcollections, coming from the "n" values ​​of origin. 
+        The resulting sequence contains "m" concatenated subcollections, coming from the "n" values ​​of origin. 
         Therefore, the transformation function that we pass as a parameter to SelectMany( ) must return 
         an enumerable sequence that we can subsequently concatenate
         
@@ -578,10 +575,8 @@ namespace TrainingStuffI
 
         If we have to count the number of times that the letter 'g' appears in this sequence of strings we have to do:
 
-        string[ ] first = new string[ ] {"hello", "hi", "good evening", "good day"};
-
-        first.SelectMany(p=> p.ToCharArray( )).Where(p=>p.Equals('g')).Count( );
-
+            string[ ] first = new string[ ] {"hello", "hi", "good evening", "good day"};
+            first.SelectMany(p=> p.ToCharArray( )).Where(p=>p.Equals('g')).Count( );
         */ 
 
         // ** PARTITION** //

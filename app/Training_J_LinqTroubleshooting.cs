@@ -19,8 +19,7 @@ namespace TrainingStuffJ
         public static void MainProcess ()
         {
             Console.WriteLine(" !!I AM THE PROGRAM J - Training of LINQ Trouble Shooting!! ");   
-    
-        
+       
         }
         
 

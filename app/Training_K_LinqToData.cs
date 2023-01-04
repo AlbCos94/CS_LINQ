@@ -22,9 +22,7 @@ namespace TrainingStuffK
         public static void MainProcess ()
         {
             Console.WriteLine(" !!I AM THE PROGRAM K - Training of LINQ To Data!! ");   
-            
-            // LINQ To Data --> THE ONE USED WHEN ACCESS TO THE READING MODEL
-            
+                       
             // SUMMARY:
             // - We use LINQ for data when the data is defined in an external source (for example, a BD). 
             // Its methods are defined in the IQueryable interface, which have to implement all the sources 
